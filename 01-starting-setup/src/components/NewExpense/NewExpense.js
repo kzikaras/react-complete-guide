@@ -6,7 +6,10 @@ const NewExpense = (props) => {
     const [showForm, toggleForm] = useState(false);
     // Currently adding a way to toggle the form
     const handleToggle = () => {
-        toggleForm();
+        let newVal = false;
+        showForm === false ? newVal = true : newVal = false;
+        console.log(newVal);
+        toggleForm(newVal);
     }
     const saveExpenseDataHandler = (enteredExpenseData) => {
         const expenseData = {
@@ -15,11 +18,17 @@ const NewExpense = (props) => {
         };
         props.onAddExpense(expenseData);
     };
+    let formContent = <button onClick={ handleToggle }>Show Form</button>;
+    if (showForm) {
+        formContent = (
+            <div className="new-expense">
+                <ExpenseForm onSaveExpenseData={ saveExpenseDataHandler }/>
+                <button onClick={ handleToggle }></button>
+            </div>
+        );
+    }
     return (
-        <div className="new-expense">
-            <ExpenseForm onSaveExpenseData={ saveExpenseDataHandler }/>
-            <button onClick={ handleToggle }></button>
-        </div>
+        { formContent }
     );
 };
 
