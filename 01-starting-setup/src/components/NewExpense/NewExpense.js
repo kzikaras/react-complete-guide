@@ -5,11 +5,11 @@ import './NewExpense.css';
 const NewExpense = (props) => {
     const [showForm, toggleForm] = useState(false);
     // Currently adding a way to toggle the form
-    const handleToggle = () => {
-        let newVal = false;
-        showForm === false ? newVal = true : newVal = false;
-        console.log(newVal);
-        toggleForm(newVal);
+    const handleToggleOpen = () => {
+        toggleForm(true);
+    }
+    const handleToggleClose = () => {
+        toggleForm(false);
     }
     const saveExpenseDataHandler = (enteredExpenseData) => {
         const expenseData = {
@@ -17,18 +17,24 @@ const NewExpense = (props) => {
             id: Math.random().toString()
         };
         props.onAddExpense(expenseData);
+        toggleForm(false);
     };
-    let formContent = <button onClick={ handleToggle }>Show Form</button>;
+    let formContent = (
+        <div className="new-expense">
+            <button onClick={ handleToggleOpen }>Add New Expense</button>
+        </div>
+    );
     if (showForm) {
         formContent = (
             <div className="new-expense">
-                <ExpenseForm onSaveExpenseData={ saveExpenseDataHandler }/>
-                <button onClick={ handleToggle }></button>
+                <ExpenseForm onSaveExpenseData={ saveExpenseDataHandler } onCancel={ handleToggleClose }/>
             </div>
         );
     }
     return (
-        { formContent }
+        <div>
+            { formContent }
+        </div>
     );
 };
 
